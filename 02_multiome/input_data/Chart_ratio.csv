@@ -1,0 +1,17 @@
+CellType,Sample,count
+LC_ER+,K8Pik,26.6
+LC_ER-,K8Pik,15.2
+Immature_BC,K8Pik,30.6
+HY_ER+_ER-,K8Pik,6.5
+HY_BC/ER+,K8Pik,3.6
+HY_BC/ER-,K8Pik,6.8
+Myoepith,K8Pik,5.2
+Prolif,K8Pik,5.6
+LC_ER+,Klf5KO,42.9
+LC_ER-,Klf5KO,36.7
+Immature_BC,Klf5KO,13.2
+HY_ER+_ER-,Klf5KO,5.5
+HY_BC/ER+,Klf5KO,1.3
+HY_BC/ER-,Klf5KO,0
+Myoepith,Klf5KO,0
+Prolif,Klf5KO,0.4
