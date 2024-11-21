@@ -1,6 +1,5 @@
 #####################################################################################
-# This code is applied on K8PIk.
-# All parameters for QC and normalisation are exactly same for Klf5KO data.
+# All parameters for QC and normalisation are same across the datasets.
 # The reference of code : https://stuartlab.org/signac/articles/pbmc_multiomic.html
 #####################################################################################
 
@@ -68,7 +67,7 @@ seuset <- subset(
     nCount_RNA > 2000 &
     nCount_ATAC < 100000 &
     nCount_ATAC > 1000
-)
+) # For control, 1000 < nCount_RNA < 30000, 1000 < nCount_ATAC < 50000 due to the differences.
 
 VlnPlot(
   object = seuset,

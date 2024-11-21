@@ -1,6 +1,5 @@
 #####################################################################################
-# This code is applied on K8PIk.
-# All parameters for QC and normalisation are exactly same for Klf5KO data.
+# This code is applied across the data.
 #####################################################################################
 
 # Library
