@@ -10,6 +10,6 @@ Installation of packages are followed as what the developers recommended. If the
 
 Annotated seurat data object and related files which are used for publications are available upon request.
 
- - Cédric Blanpain: Cedric.Blanpain@ulb.be
- - Alexandra Van Keymeulen: alexandra.van.keymeulen@ulb.be
- - Yura Song: yura.song@ulb.be
+ - Cédric Blanpain (Corresponding author): Cedric.Blanpain@ulb.be
+ - Alexandra Van Keymeulen (Corresponding author): alexandra.van.keymeulen@ulb.be
+ - Yura Song (Bioinformatician): yura.song@ulb.be
