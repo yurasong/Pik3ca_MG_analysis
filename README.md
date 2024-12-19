@@ -2,7 +2,7 @@
 
 This repository contains the code used for the visualization and analysis of single-cell transcriptomics and 10X multiomics datasets related to the publication. Processed datasets are uploaded to GEO under the accession numbers GSE282228 for 10X multiome and GSE281982 for scRNA-seq.
 
-The operating system used for performing all the analysis is Linux Ubuntu 18.04. Information about the versions of the packages used for each analysis is included in the Methods section of the manuscript. Information regarding each code is included as header.
+The operating system used for performing all the analysis is Linux Ubuntu 18.04. R version is 4.4.2. Information about the versions of the packages used for each analysis is included in the Methods section of the manuscript. Information regarding each code is included as a header.
 
 For running SCENIC and SCENIC+, conda environment has been built. Environment for SCENIC and [SCENIC+](https://github.com/yurasong/Pik3ca_MG_analysis/blob/main/03_SCENIC%2B/conda_environment_dependencies.txt) is available.
 
