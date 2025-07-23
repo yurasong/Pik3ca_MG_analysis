@@ -1,7 +1,5 @@
 #####################################################################################
 # File: 06_PieChart.R
-# Author: Yura Song
-# Date: 2025-07-23
 #
 # Description:
 #   Reads cell‐type count ratios for CTL, K8Pik, and K8Pik_Klf5KO samples,
@@ -14,6 +12,8 @@
 #   - PieChart_CTL.pdf
 #   - PieChart_K8Pik.pdf
 #   - PieChart_K8Pik_Klf5KO.pdf
+#
+# Annotation was done manually after generating piechart.
 #
 # Dependencies:
 #   dplyr, data.table, tidyverse, RColorBrewer, ggplot2
