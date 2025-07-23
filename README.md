@@ -17,6 +17,8 @@ All raw sequencing datasets that support the findings of this study have been de
 - **10X Multiome** (GEO accession: [GSE282228](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE282228))  
 - **10X scRNA-seq** (GEO accession: [GSE281982](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE281982))  
 
+For our human-relevance analyses (Wu et al., Nat Genet 2021), we downloaded the processed Seurat object used in the paper. You can retrieve it here: [Wu_et_al_Cancer_epith_only.rds](https://www.dropbox.com/scl/fi/85ny19cwu73ugfvvi5qfs/Wu_et_al_Cancer_epith_only.rds?rlkey=2yw29ff6u53npgir3rpw4yndu&st=c4j4ff1e&dl=0)
+
 > **Note:** Processed Seurat objects and related data files are available upon request.
 
 ## Environment
