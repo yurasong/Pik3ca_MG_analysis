@@ -1,6 +1,8 @@
-#####################################################################################
-# This code is applied on ERPik data.
-#####################################################################################
+#######################################################################################
+# ScatterPlot_ERPik.R
+# This script will generate the scatter plot of BC-LC marker genes on ER Pik Yfp data.
+# This code will generate plots in Fig.2d.
+#######################################################################################
 
 # Library
 library(Seurat)
@@ -72,7 +74,7 @@ bc_lcp_mer[rownames(bc_lcp_mer), "adjusted_bc_prop"] <- bc_fitted
 bc_lcp_mer[rownames(bc_lcp_mer), "adjusted_lcp_prop"] <- lcp_fitted
 
 ### Plotting
-bc_sel <- bc_lcp_mer[bc_lcp_mer$cell_type %in% c("HY_ER+/BCs"),]
+bc_sel <- bc_lcp_mer[bc_lcp_mer$cell_type %in% c("Early HY ER+/BCs"),]
 ggplot(data=bc_sel, aes(x=adjusted_bc_prop, y=adjusted_lcp_prop, color = cell_type)) +
   geom_point() +
   scale_color_manual(values=c("#BDB76B")) +
@@ -90,7 +92,7 @@ ggplot(data=bc_sel, aes(x=adjusted_bc_prop, y=adjusted_lcp_prop, color = cell_ty
         axis.ticks.x=element_blank())
 
 ### Plotting
-bc_sel <- bc_lcp_mer[bc_lcp_mer$cell_type %in% c("BCs"),]
+bc_sel <- bc_lcp_mer[bc_lcp_mer$cell_type %in% c("Late HY ER+/BCs"),]
 ggplot(data=bc_sel, aes(x=adjusted_bc_prop, y=adjusted_lcp_prop, color = cell_type)) +
   geom_point() +
   scale_color_manual(values=c("#32CD32")) +
