@@ -1,15 +1,54 @@
-# Pik3ca_MG_analysis
+# Pik3ca Single-Cell & Multi-Omics Analysis
 
-This repository contains the code used for the visualization and analysis of single-cell transcriptomics and 10X multiomics datasets related to the publication. Processed datasets are uploaded to GEO under the accession numbers GSE282228 for 10X multiome and GSE281982 for scRNA-seq.
+This repository contains all the code and documentation used to analyze and visualize single-cell transcriptomics and 10X multi-omics datasets for our publication.
 
-The operating system used for performing all the analysis is Linux Ubuntu 18.04. R version is 4.4.2. Information about the versions of the packages used for each analysis is included in the Methods section of the manuscript. Information regarding each code is included as a header.
+**Publication**
 
-For running SCENIC and SCENIC+, conda environment has been built. Environment for SCENIC and [SCENIC+](https://github.com/yurasong/Pik3ca_MG_analysis/blob/main/03_SCENIC%2B/conda_environment_dependencies.txt) is available.
+Currently, manuscript is on preparation.
 
-Installation of packages are followed as what the developers recommended. If the R package is removed from the repository, the formerly available versions are obtained from the archive and installation was done manually. 
+> A DOI and link to the final publication will be provided here once available.
+
+---
+
+## Datasets
+
+All raw sequencing datasets that support the findings of this study have been deposited in the NCBI Gene Expression Omnibus (GEO) under the following accession numbers.
+
+- **10X Multiome** (GEO accession: [GSE282228](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE282228))  
+- **10X scRNA-seq** (GEO accession: [GSE281982](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE281982))  
+
+> **Note:** Processed Seurat objects and related data files are available upon request.
+
+## Environment
+
+All analyses were performed on **Ubuntu 18.04** using:
+
+- **R** ≥ 4.4.2  
+- **Conda** with dedicated environments for  
+  - [pySCENIC](https://github.com/aertslab/pySCENIC)  
+  - [SCENIC+](https://github.com/yurasong/Pik3ca_MG_analysis/blob/main/03_SCENIC%2B/conda_environment_dependencies.txt)  
+
+Package versions are listed in the **Methods** section of the manuscript and captured in the environment files.
+
+## Installation
+
+1. **Clone the repo**  
+   ```bash
+   git clone https://github.com/yourusername/Pik3ca_MG_analysis.git
+   cd Pik3ca_MG_analysis
+
+Each code file contains its own instructions for running the specific analyses.
+
+---
+
+## License
+
+All rights are reserved by the authors.
+
+## Request of processed data
 
 Annotated seurat data object and related files which are used for publications are available upon request.
 
  - Cédric Blanpain (Corresponding author): Cedric.Blanpain@ulb.be
- - Alexandra Van Keymeulen (Corresponding author): alexandra.van.keymeulen@ulb.be
+ - Alexandra Van Keymeulen (Co-corresponding author): alexandra.van.keymeulen@ulb.be
  - Yura Song (Bioinformatician): yura.song@ulb.be
