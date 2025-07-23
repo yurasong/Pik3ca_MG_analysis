@@ -1,3 +1,25 @@
+#####################################################################################
+# File: 04_AUC_KLF5_target.R
+#
+# Description:
+#   1. Load processed Seurat object from Wu et al. (Nat Genet, 2021)
+#   2. Build AUCell rankings and calculate AUC for the KLF5 target genes as geneset
+#   3. Add AUC assay to Seurat object and regress out feature count effects
+#   4. Generate boxplots of adjusted AUC by patient and subtype
+#
+# Inputs:
+#   - Wu_et_al_Cancer_epith_only.rds : Seurat object with RNA counts and metadata
+#   - 01_Signature/KLF5_target.txt      : List of genes defining the signatures composed of target genes of KLF5
+#
+# Outputs:
+#   - Seurat object augmented with AUC assay (in memory)
+#   - Boxplot of adjusted AUC by patient/subtype (plotted to current device)
+#
+# Dependencies:
+#   dplyr, data.table, tidyverse, patchwork, Seurat,
+#   AUCell, GSEABase, RColorBrewer, ggplot2, MASS
+#####################################################################################
+
 # Library
 library(dplyr)
 library(data.table)

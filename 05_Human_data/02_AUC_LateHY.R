@@ -1,3 +1,25 @@
+#####################################################################################
+# File: 02_AUC_LateHY.R
+#
+# Description:
+#   1. Load processed Seurat object from Wu et al. (Nat Genet, 2021)
+#   2. Build AUCell rankings and calculate AUC for the Late_HY_signature gene set
+#   3. Add AUC assay to Seurat object and regress out feature count effects
+#   4. Generate boxplots of adjusted AUC by patient and subtype
+#
+# Inputs:
+#   - Wu_et_al_Cancer_epith_only.rds : Seurat object with RNA counts and metadata
+#   - 01_Signature/Late_HY.txt      : List of genes defining the Late HY signature
+#
+# Outputs:
+#   - Seurat object augmented with AUC assay (in memory)
+#   - Boxplot of adjusted AUC by patient/subtype (plotted to current device)
+#
+# Dependencies:
+#   dplyr, data.table, tidyverse, patchwork, Seurat,
+#   AUCell, GSEABase, RColorBrewer, ggplot2, MASS
+#####################################################################################
+
 # Library
 library(dplyr)
 library(data.table)
