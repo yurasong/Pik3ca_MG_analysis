@@ -1,7 +1,38 @@
 #####################################################################################
-# All parameters for QC and normalisation are same across the datasets.
-# The reference of code : https://stuartlab.org/signac/articles/pbmc_multiomic.html
+# File: 01_Basic_QC.R
+#
+# Description:
+#   Full Signac/Seurat pipeline for processing 10X multiome (RNA + ATAC) data:
+#     1. Load RNA & ATAC assays from 10X h5 and fragment files
+#     2. Annotate peaks with EnsDb.Mmusculus.v79
+#     3. Compute QC metrics (TSS enrichment, nucleosome signal)
+#     4. Filter low‐quality cells
+#     5. Call and quantify peaks with MACS2
+#     6. Normalize RNA, run PCA, select variable features
+#     7. Normalize ATAC with TF‐IDF, run SVD (LSI)
+#     8. Integrate modalities, cluster, and build UMAP
+#     9. Plot gene expression and link peaks to genes
+#    10. Save processed Seurat object
+#
+# Inputs:
+#   - filtered_feature_bc_matrix/filtered_feature_bc_matrix.h5
+#   - ATACseq/atac_fragments.tsv.gz
+#   - gene_list of markers (hardcoded in the script)
+#
+# Output:
+#   - Interactive QC and clustering plots
+#   - Coverage plots for specified marker genes
+#   - Saved Seurat object: processed_multiome.rds
+#
+# Dependencies:
+#   Signac, Seurat, tidyverse, dplyr, ggplot2, EnsDb.Mmusculus.v79,
+#   BSgenome.Mmusculus.UCSC.mm10, biovizBase, Matrix
+#
+# Reference:
+#   Stuart T. *et al.* PBMC Multiomic tutorial:
+#   https://stuartlab.org/signac/articles/pbmc_multiomic.html
 #####################################################################################
+
 
 # Library
 
@@ -247,8 +278,7 @@ CoveragePlot(
   extend.downstream = 10000
 )
 
-
 # Save object
 
-saveRDS(seuset, "01_Multiome_K8Pik.rds")
+saveRDS(seuset, "processed_multiome.rds")
 

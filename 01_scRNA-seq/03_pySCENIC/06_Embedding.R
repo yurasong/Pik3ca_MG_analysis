@@ -1,6 +1,7 @@
 #######################################################################################
 # 06_embed_data_on_seurat.R
 # This script will embed average AUC score into the Seurat object as a new assay.
+# Plotting of AUC value will generate the graphs on Fig. 5d-g.
 #######################################################################################
 
 # Preparations

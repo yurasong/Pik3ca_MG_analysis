@@ -1,5 +1,28 @@
 #####################################################################################
-# This code is applied across the data.
+# File: 02_Fibroblast_removal_and_recalculation.R
+#
+# Description:
+#   Subsets and re-clusters a multiome Seurat object to remove fibroblast-like clusters,
+#   performs joint RNA/ATAC dimensional reduction and UMAP embedding,
+#   annotates cell types, and identifies top marker genes per cluster.
+#
+# Inputs:
+#   - processed_multiome.rds      : Pre-processed multiome Seurat object with 01_Basic_QC.R
+#   - gene markers hardcoded in script
+#
+# Outputs:
+#   - UMAP plots of subclustered cells (PDF)
+#   - Annotated Seurat object: Annot_multiome_noFibro.rds
+#   - Marker gene table: Marker_Top100_significant_FC0p5_noFibro.csv
+#
+# Dependencies:
+#   Signac, Seurat, tidyverse, dplyr, ggplot2,
+#   EnsDb.Mmusculus.v79, BSgenome.Mmusculus.UCSC.mm10,
+#   biovizBase, Matrix, forcats
+#
+# Reference:
+#   Stuart T. et al. PBMC Multiomic tutorial:
+#   https://stuartlab.org/signac/articles/pbmc_multiomic.html
 #####################################################################################
 
 # Library
@@ -15,7 +38,7 @@ library(Matrix)
 
 # Data
 
-seuset <- readRDS("01_Multiome_K8Pik.rds") # Object which already passed QC
+seuset <- readRDS("processed_multiome.rds") # Object which already passed QC
 
 DefaultAssay(seuset) <- "RNA"
 FeaturePlot(seuset, features=c("Vim", "Fn1", "Pdgfra"), ncol=3, pt.size=0.8)
@@ -130,16 +153,16 @@ DimPlot(seuset, label=F,
         axis.text.y=element_blank(),
         axis.ticks.y=element_blank())
 
-ggsave("UMAP_K8Pik.pdf", width = 10, height = 10, units = "cm")
+ggsave("UMAP.pdf", width = 10, height = 10, units = "cm")
 
 # Marker genes for each cluster
 
 markers <- FindAllMarkers(subc, logfc.threshold = 0.5, min.pct = 0.25, only.pos = T)
 markers <- markers %>% dplyr::filter(p_val_adj < 0.01)
 markers <- markers %>% group_by(cluster) %>% top_n(n = 100, wt = avg_log2FC)
-write.table(markers, "Marker_Top100_significant_FC0p5_K8Pik_noFibro.csv", quote=F, sep="\t", row.names=F, col.names=T)
+write.table(markers, "Marker_Top100_significant_FC0p5_noFibro.csv", quote=F, sep="\t", row.names=F, col.names=T)
 
 # Save object
 
-saveRDS(subc, "Annot_K8Pik_noFibro.rds")
+saveRDS(subc, "Annot_multiome_noFibro.rds")
 

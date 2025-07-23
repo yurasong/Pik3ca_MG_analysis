@@ -1,7 +1,28 @@
-####################################################################################################
-# Doublet detection step is done after fibroblast and YFP filteration.
-# We use two tools and filter out the doublets which are both packages are detecting it as doublet.
-####################################################################################################
+#####################################################################################
+# File: 03_Doublet_detection.R
+#
+# Description:
+#   Detects and removes doublets from a filtered multiome Seurat object using two methods:
+#     1. scds (cxds, bcds, and hybrid scoring)
+#     2. DoubletFinder
+#   Retains cells classified as singlets by both tools, then re-clusters and projects UMAP.
+#
+# Inputs:
+#   - Annot_multiome_noFibro.rds       : Seurat object after fibroblast filtering
+#
+# Outputs:
+#   - Violin plots of doublet scores (hybrid_score and pANN)
+#   - UMAP plot of filtered cells (PDF via DimPlot)
+#   - Annotated Seurat object without doublets: Annot_multiome_noFibro_nodoublet.rds
+#
+# Dependencies:
+#   Seurat, Signac, scds, SingleCellExperiment, magrittr,
+#   data.table, dplyr, ggplot2, DoubletFinder, forcats
+#
+# Reference:
+#   - scds: https://github.com/compbiomed/scds
+#   - DoubletFinder tutorial: https://github.com/chris-mcginnis-ucsf/DoubletFinder
+#####################################################################################
 
 # Library
 
@@ -16,7 +37,7 @@ library(ggplot2)
 library(DoubletFinder)
 
 # Data
-seuset <- readRDS("../../02_Remove_contaminants/CTL_multiome_annot.rds")
+seuset <- readRDS("Annot_multiome_noFibro.rds")
 seuset@active.ident =factor(as.character(seuset@meta.data$seurat_clusters))
 names(seuset@active.ident) = rownames(seuset@meta.data)
 
@@ -140,7 +161,7 @@ DimPlot(subc, reduction = "umap", label = TRUE, label.size = 4, repel = T,
         cols=c("LC_ER-" = "#00BFC4", "BCs" = "#C77CFF", "LC_ER+" = "#00A9FF", "Prolif" = "#FF61CC")) + 
   NoLegend() 
 
-
+saveRDS(subc, "Annot_multiome_noFibro_nodoublet.rds")
 
 
 

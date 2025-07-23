@@ -1,6 +1,7 @@
 #####################################################################################
 # 01_Marker_gene_expression_plot.R
 # Change the `seuset <- readRDS(...)` line to point at the desired RDS.
+# This code will generate plots on Fig. 2a-b, 2h, Fig. S3d, Fig. S4b-e.
 #####################################################################################
 
 # Library
