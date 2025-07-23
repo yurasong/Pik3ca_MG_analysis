@@ -1,7 +1,6 @@
 #####################################################################################
-# This code is applied on K8Pik data.
-# All parameters for expression plotting are exactly same for CTL and ERPik data.
-# You just need to change the object for the individual data.
+# 01_Marker_gene_expression_plot.R
+# Change the `seuset <- readRDS(...)` line to point at the desired RDS.
 #####################################################################################
 
 # Library
@@ -14,12 +13,13 @@ library(data.table)
 library(tidyverse)
 library(viridis)
 
-# Data
+# Load data
+seuset <- readRDS("seurat_object.rds") # swap filename here for other datasets
 
-seuset <- readRDS("K8Pik_annotated.rds") # You can change here to plot the other datasets.
-
+# extract UMAP coords
 umap_coord <- as.data.frame(seuset@reductions$umap@cell.embeddings)
 
+# merge expression with coords
 seuset_gene <- merge.data.frame(umap_coord,t(as.data.frame(seuset@assays$RNA@data)),by=0)
 row.names(seuset_gene) <- seuset_gene$Row.names
 
@@ -37,21 +37,19 @@ umap_color_scaled <- function(x)
   regulon_plot <- regulon_plot + sc
   regulon_plot <- regulon_plot + theme_bw() + 
     theme(panel.border = element_blank(), panel.grid.major = element_blank(), 
-          panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"), 
-          legend.position = "none",
-          axis.title.x=element_blank(),
-          axis.text.x=element_blank(),
-          axis.ticks.x=element_blank(),
-          axis.title.y=element_blank(),
-          axis.text.y=element_blank(),
-          axis.ticks.y=element_blank())
+            panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"), 
+            legend.position = "none",
+            axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank()) 
   
   regulon_plot
-  
-  ggsave(paste(x,"_GeneExp_K8Pik.pdf",sep=""), width = 10, height = 10, units = "cm")
 }
 
-gene_list <- read.delim("gene_list.txt", h=F)
-gene_list <- gene_list$V1
+# --- Run for each marker ----------------------------------------------------
+gene_list <- read.delim("gene_list.txt", header = FALSE)$V1
 
 lapply(gene_list, umap_color_scaled)
