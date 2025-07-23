@@ -1,44 +1,125 @@
 #!/bin/bash
 
-############################################################
-# This run has been proceeded on Ubuntu 18.04.
-# All can be done on terminal. This is shell based.
-############################################################
+##########################################################################################
+# File: 01_proceed_bamfile
+#
+# Description:
+#   Filters ATAC-seq BAM files by cell barcodes and cleans contigs/reads per sample:
+#     1) Uses `sinto filterbarcodes` to extract per-cell BAMs based on metadata
+#     2) Strips non-standard contigs (keeps chr1–22, X, Y)
+#     3) Merges, sorts, and indexes cleaned BAMs
+#     4) Filters for mapped and paired reads
+#
+# Inputs:
+#   - ATAC BAMs:
+#       K8Pik_atac_possorted_bam.bam
+#       K8Pik_Klf5KO_atac_possorted_bam.bam
+#       CTL_atac_possorted_bam.bam
+#   - Metadata files (tab-delimited):
+#       00_input/metadata_K8Pik_noFibro_multiome.txt
+#       00_input/metadata_K8Pik_Klf5KO_noFibro_multiome.txt
+#       00_input/metadata_CTL_multiome.txt
+#
+# Outputs:
+#   - `<sample>/<cell>.bam` (filtered by barcode)
+#   - `<prefix>_noContig_sorted.bam` + index
+#   - `<prefix>_mapped.bam`
+#   - `<prefix>_paired.bam`
+#
+# Dependencies:
+#   - bash
+#   - samtools
+#   - sinto (https://github.com/mojaveazure/sinto)
+#   - coreutils (mktemp, mkdir, basename)
+#
+##########################################################################################
 
-# Create bamfile which only includes the cells passed QC
-# This will return the bam file per cell type.
-sinto filterbarcodes -b K8Pik_atac_possorted_bam.bam -c 00_input/metadata_K8Pik_noFibro_multiome.txt
-sinto filterbarcodes -b K8Pik_atac_possorted_bam.bam -c 00_input/metadata_K8Pik_Klf5KO_noFibro_multiome.txt
+#----------------------------------------
+# CONFIGURATION
+#----------------------------------------
+bams=( 
+  "K8Pik_atac_possorted_bam.bam"
+  "K8Pik_Klf5KO_atac_possorted_bam.bam"
+  "CTL_atac_possorted_bam.bam"
+)
 
-# Filter out unmapped contigs
-## Here, I am taking the Immature_BC.bam of Klf5KO sample as an example. The procedure is exactly same for the other bam files.
+metas=( 
+  "00_input/metadata_K8Pik_noFibro_multiome.txt"
+  "00_input/metadata_K8Pik_Klf5KO_noFibro_multiome.txt"
+  "00_input/metadata_CTL_multiome.txt"
+)
 
-samtools view -bh Immature_BC.bam chr1 > chr1.bam 
-samtools view -bh Immature_BC.bam chr2 > chr2.bam 
-samtools view -bh Immature_BC.bam chr3 > chr3.bam 
-samtools view -bh Immature_BC.bam chr4 > chr4.bam 
-samtools view -bh Immature_BC.bam chr5 > chr5.bam 
-samtools view -bh Immature_BC.bam chr6 > chr6.bam 
-samtools view -bh Immature_BC.bam chr7 > chr7.bam 
-samtools view -bh Immature_BC.bam chr8 > chr8.bam 
-samtools view -bh Immature_BC.bam chr9 > chr9.bam 
-samtools view -bh Immature_BC.bam chr10 > chr10.bam 
-samtools view -bh Immature_BC.bam chr11 > chr11.bam 
-samtools view -bh Immature_BC.bam chr12 > chr12.bam 
-samtools view -bh Immature_BC.bam chr13 > chr13.bam 
-samtools view -bh Immature_BC.bam chr14 > chr14.bam 
-samtools view -bh Immature_BC.bam chr15 > chr15.bam 
-samtools view -bh Immature_BC.bam chr16 > chr16.bam 
-samtools view -bh Immature_BC.bam chr17 > chr17.bam 
-samtools view -bh Immature_BC.bam chr18 > chr18.bam 
-samtools view -bh Immature_BC.bam chr19 > chr19.bam 
-samtools view -bh Immature_BC.bam chrX > chrX.bam 
-samtools view -bh Immature_BC.bam chrY > chrY.bam
+contigs=(chr{1..22} chrX chrY)
 
-samtools merge -O BAM Immature_BC_noContig.bam chr*.bam
-samtools sort -O BAM -T tempsort -o Immature_BC_noContig_sorted.bam Immature_BC_noContig.bam
-samtools index -b Immature_BC_noContig_sorted.bam Immature_BC_noContig_sorted.bam.bai
+#----------------------------------------
+# FUNCTIONS
+#----------------------------------------
+filter_barcodes() {
+  local bam_file=$1 meta_file=$2
+  local sample="${bam_file%%_atac_possorted_bam.bam}"
+  echo "▶ Filtering ${bam_file} → ${sample}/"
+  mkdir -p "$sample"
+  sinto filterbarcodes \
+    -b "$bam_file" \
+    -c "$meta_file" \
+    --outdir "$sample"
+}
 
-samtools view -b -F 4 Immature_BC_noContig_sorted.bam > mapped.bam_file.bam
-samtools view -bf 1 mapped.bam_file.bam > paired_end_mapped.bam
+process_bam() {
+  local in_bam=$1
+  local prefix="${in_bam%.bam}"
+  local tmpdir; tmpdir=$(mktemp -d)
 
+  echo "▶ Stripping contigs from ${in_bam}"
+  for c in "${contigs[@]}"; do
+    samtools view -bh "$in_bam" "$c" > "${tmpdir}/${c}.bam"
+  done
+
+  echo "▶ Merging → ${prefix}_noContig.bam"
+  samtools merge -O BAM "${prefix}_noContig.bam" "${tmpdir}"/*.bam
+  rm -rf "$tmpdir"
+
+  echo "▶ Sorting → ${prefix}_noContig_sorted.bam"
+  samtools sort -O BAM -T "${prefix}_tmp" -o "${prefix}_noContig_sorted.bam" "${prefix}_noContig.bam"
+  samtools index "${prefix}_noContig_sorted.bam"
+
+  echo "▶ Filtering reads → mapped & paired"
+  samtools view -b -F 4 "${prefix}_noContig_sorted.bam" > "${prefix}_mapped.bam"
+  samtools view -b -f 1 "${prefix}_mapped.bam"      > "${prefix}_paired.bam"
+
+  echo "✔ Done with ${in_bam}"
+}
+
+#----------------------------------------
+# MAIN
+#----------------------------------------
+
+# 1) per-sample barcode filtering
+for i in "${!bams[@]}"; do
+  filter_barcodes "${bams[i]}" "${metas[i]}"
+done
+echo "✅ Barcode filtering complete."
+
+# 2) per-cell-type contig & read filtering
+for meta in "${metas[@]}"; do
+  sample=$(basename "$meta")
+  sample=${sample#metadata_}
+  sample=${sample%_multiome.txt}
+
+  echo "=== Processing sample: ${sample} ==="
+  pushd "$sample" >/dev/null || { echo "No dir $sample, skipping"; continue; }
+
+  # grab unique cell-type names from 2nd column
+  while read -r cell; do
+    bam="${cell}.bam"
+    if [[ -f "$bam" ]]; then
+      process_bam "$bam"
+    else
+      echo "⚠️  Missing ${bam}, skipping"
+    fi
+  done < <(cut -f2 "../$meta" | sort -u)
+
+  popd >/dev/null
+done
+
+echo "All contig-stripping & read-filtering done."
