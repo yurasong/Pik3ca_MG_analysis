@@ -44,11 +44,3 @@ Each code file contains its own instructions for running the specific analyses.
 ## License
 
 All rights are reserved by the authors.
-
-## Request of processed data
-
-Annotated seurat data object and related files which are used for publications are available upon request.
-
- - Cédric Blanpain (Corresponding author): Cedric.Blanpain@ulb.be
- - Alexandra Van Keymeulen (Co-corresponding author): alexandra.van.keymeulen@ulb.be
- - Yura Song (Bioinformatician): yura.song@ulb.be
