@@ -1,3 +1,7 @@
+library(Seurat)
+library(dplyr)
+library(data.table)
+
 seuset <- readRDS("seurat_object.RDS")
 
 exprMat <- t(as.matrix(seuset@assays$RNA@data))

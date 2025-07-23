@@ -1,9 +1,13 @@
-######################################################################################
-# Please activate conda environment: conda activate pyscenic
+#######################################################################################
+# 05_regulon_parse.py
+# Please activate conda environment before running this file.
+# Please run this on python environment.
+# This code will return a table composed of regulon and target genes.
+
 # sys.argv[1] = location of concatenated regulon files
 # sys.argv[2] = the result file including regulon and target-genes
 # Need to install those modules before running it : $ pip install [name of module]
-######################################################################################
+#######################################################################################
 
 import os
 import sys

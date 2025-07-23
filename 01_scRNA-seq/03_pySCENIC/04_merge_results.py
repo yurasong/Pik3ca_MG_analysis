@@ -1,39 +1,37 @@
-############################################################
-# Please activate conda environment: conda activate pyscenic
-############################################################
+##############################################################################################################################
+# 04_merge_results.py
+# Please activate conda environment before running this file.
+# Please run this on python environment.
+# This code will return average value of AUC score per regulon as a matrix.
+# Acknowledgement: LEE Jeong Gyu (Hanyang Univ. College of Communications, Information Sociology, leejg794294@gmail.com)
+##############################################################################################################################s
 
 import pandas as pd
+from glob import glob
 
-# Import data using pandas
-file_names = [f"auc_mtx{i}.csv" for i in range(9)]
-data_frames = [pd.read_csv(file) for file in file_names]
+# 1) Gather all auc_mtx files
+file_paths = sorted(glob("auc_mtx*.csv"))  # matches auc_mtx.csv, auc_mtx1.csv, …, auc_mtx9.csv
 
-# Extract column names from each data frame and merge them
-all_columns = set()
-for df in data_frames:
-    all_columns.update(df.columns)
+# 2) Read each into a DataFrame, keeping Cell as a column
+dfs = [pd.read_csv(fp) for fp in file_paths]
 
-# Remove the 'Cell' column since it is used as a key for further manipulation
-all_columns.discard("Cell")
-columns_list = list(all_columns)
+# 3) Use the first DF's Cell column as our index
+result = pd.DataFrame(dfs[0]["Cell"], columns=["Cell"])
 
-# Initialize result dataframe with 'Cell' column
-result = pd.DataFrame(data_frames[0]["Cell"])
+# 4) Concatenate all on Cell, creating duplicate column names where they overlap
+concat = pd.concat(
+    [df.set_index("Cell") for df in dfs],
+    axis=1,
+    sort=False
+)
 
-# Run the loop to calculate the average for each column
-for column in columns_list:
-    count = 0
-    result[column] = 0
-    
-    # Add values from each data frame if the column exists
-    for df in data_frames:
-        if column in df.columns:
-            count += 1
-            result[column] += df[column].astype("float")
-    
-    # Calculate the average
-    if count > 0:
-        result[column] /= count
+# 5) Group-by column name and take the mean across the duplicates
+averaged = (
+    concat
+    .groupby(level=0, axis=1)  # groups columns by their name
+    .mean()
+    .reset_index()
+)
 
-# Export the result to a CSV file
-result.to_csv("AUC_Average.csv", index=False)
+# 6) Write out
+averaged.to_csv("AUC_Average.csv", index=False)
