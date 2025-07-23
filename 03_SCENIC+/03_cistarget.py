@@ -1,3 +1,36 @@
+#####################################################################################
+# File: 03_pycistarget.py
+#
+# Description:
+#   1. Load binarized topic region sets and DARs (OTSU, top 3k, and DARs) from pickle files
+#   2. Filter for standard chromosomes and convert region names to genomic coordinates
+#   3. Organize regions into PyRanges objects for each topic/DAR
+#   4. Run pycistarget motif enrichment on each region set using specified rankings/scores databases
+#   5. Save output motif files under the `motifs/` directory
+#
+#
+# Inputs (relative to projDir):
+#   - scATAC/candidate_enhancers/region_bin_topics_otsu.pkl
+#   - scATAC/candidate_enhancers/region_bin_topics_top3k.pkl
+#   - scATAC/candidate_enhancers/markers_dict.pkl
+#   - ctx_db_path (feather): mm10_screen_v10_clust.regions_vs_motifs.rankings.feather
+#   - dem_db_path (feather): mm10_screen_v10_clust.regions_vs_motifs.scores.feather
+#   - motif_annotation (tbl): motifs-v10nr_clust-nr.mgi-m0.001-o0.0.tbl
+#
+# Outputs (under projDir/motifs/):
+#   - One motif enrichment result file per region set (e.g., topics_otsu_<topic>.feather, 
+#     topics_top_3_<topic>.feather, DARs_<DAR>.feather)
+#
+# Dependencies:
+#   os, pickle, pandas, pyranges, scenicplus, pycistarget.utils.region_names_to_coordinates,
+#   scenicplus.wrappers.run_pycistarget
+#
+# Notes:
+#   - Ensure the MALLET_MEMORY and other environment variables are set if required.
+#   - Adjust n_cpu and _temp_dir parameters in run_pycistarget call as needed.
+#####################################################################################
+
+
 import sys
 import os
 

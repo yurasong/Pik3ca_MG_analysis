@@ -1,3 +1,46 @@
+#####################################################################################
+# File: 02_pycistopic.py
+# Author: Yura Song
+# Date: 2025-07-23
+#
+# Description:
+#   Full cisTopic analysis pipeline for scATAC-seq data:
+#     1. Create cisTopic object from count matrix and blacklist
+#     2. Add cell metadata
+#     3. Run Mallet LDA models over a range of topic numbers
+#     4. Select the best model using multiple metrics
+#     5. Add the chosen LDA model to the cisTopic object
+#     6. Perform clustering (Leiden) and dimensionality reduction (UMAP/t-SNE)
+#     7. Visualize metadata and topic contributions on embeddings
+#     8. Binarize topics and compute QC metrics
+#     9. Identify differentially accessible regions (DARs)
+#    10. Prepare candidate enhancer sets for downstream cisTarget
+#
+# Inputs (all relative to project directory):
+#   - count_table.tsv             : Fragment count matrix (peaks × cells), could be retrieved from Seurat object
+#   - input_files/mm10-blacklist.v2.bed : Genomic blacklist BED file
+#   - metadata.tsv                : Cell metadata table (indexed by cell ID)
+#   - MALLET binary (set via path_to_mallet_binary)
+#
+# Outputs (in ./output/ and subfolders):
+#   - Mallet_models_500.pkl
+#   - model_selection.pdf
+#   - K8Pik_cisTopicObject.pkl
+#   - visualization PDFs: dimensionality_reduction_label.pdf, 
+#       dimensionality_reduction_topic_contr.pdf
+#   - Topic_qc.pdf, Topic_qc_metrics_annot.pkl,
+#     binarized_cell_topic.pkl, binarized_topic_region.pkl
+#   - DARs/Imputed_accessibility.pkl, DARs/DARs.pkl
+#   - scATAC/candidate_enhancers/*.pkl
+#
+# Dependencies:
+#   os, pandas, numpy, pickle, matplotlib, pycisTopic, pycisTopic.clust_vis,
+#   pycisTopic.topic_binarization, pycisTopic.topic_qc, pycisTopic.diff_features
+#   (Ensure MALLET is installed and MALLET_MEMORY env var is set)
+#####################################################################################
+
+
+
 # Project directory
 projDir = "./"
 

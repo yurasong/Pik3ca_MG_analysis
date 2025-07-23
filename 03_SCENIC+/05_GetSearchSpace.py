@@ -1,20 +1,31 @@
 ##########################################################################################
-## Running on the CÉCI: Dragon2
-## Running on log-in node due to the internet connection
-## Modules which are used
+# File: 05_GetSearchSpace.sh
+# Author: Yura Song
+# Date: 2025-07-23
+#
+# Description:
+#   Loads the ScenicPlus object and defines the enhancer-to-gene search space
+#   using Ensembl Biomart (100 bp–100 kb upstream/downstream windows).
+#   Must be run on the login node (internet access required).
+#
+# This script will execute:
+#   - Load scplus_obj from eGRN_inference/K8Pik_scplus_obj.pkl
+#   - Call get_search_space() with biomart_host, species, assembly, upstream/downstream
+#   - Resave the updated scplus_obj to the same file
+#
+# Inputs:
+#   - eGRN_inference/K8Pik_scplus_obj.pkl
+#
+# Outputs:
+#   - Updated eGRN_inference/K8Pik_scplus_obj.pkl with search space defined
+#
+# Dependencies:
+#   Python modules: dill, scanpy, numpy, pandas, pyranges, scenicplus.enhancer_to_gene
+#
+# Notes:
+#   - Requires internet connection to Ensembl archive on login node.
 ##########################################################################################
 
-ml releases/2023a
-ml SciPy-bundle
-ml scikit-learn
-ml foss/2023a
-ml Rust
-
-export OMP_NUM_THREADS=6
-
-python
-
-##########################################################################################
 
 # System setting
 

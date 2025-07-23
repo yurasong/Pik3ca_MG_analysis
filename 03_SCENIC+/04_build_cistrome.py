@@ -1,3 +1,32 @@
+#####################################################################################
+# File: 04_build_cistrome.py
+#
+# Description:
+#   1. Load scRNA-seq AnnData, cisTopic object, and motif enrichment results
+#   2. Create a ScenicPlus object combining transcriptome and chromatin topic data
+#   3. Generate and merge cistromes (eGRNs) for downstream regulatory network analysis
+#   4. Save the ScenicPlus object for later eGRN inference steps
+#
+# Inputs:
+#   - scRNA AnnData:      scRNA/RNA.h5ad
+#   - cisTopic object:    output/K8Pik_cisTopicObject.pkl
+#   - motif enrichment:   motifs/menr.pkl
+#
+# Outputs:
+#   - ScenicPlus object:  eGRN_inference/K8Pik_scplus_obj.pkl
+#   - Console log of merge_cistromes runtime
+#
+# Dependencies:
+#   dill, scanpy, pandas, pyranges, scenicplus,
+#   scenicplus.scenicplus_class.create_SCENICPLUS_object,
+#   scenicplus.cistromes.merge_cistromes
+#
+# Notes:
+#   - Ensure barcode mapping function matches your dataset conventions.
+#   - Suppresses warnings for cleaner runtime logs.
+#####################################################################################
+
+
 import dill
 import scanpy as sc
 import os

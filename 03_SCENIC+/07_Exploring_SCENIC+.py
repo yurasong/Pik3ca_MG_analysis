@@ -1,3 +1,34 @@
+#####################################################################################
+# File: 07_Exploring_SCENIC+.py
+#
+# Description:
+#   Exploration and scoring of SCENIC+ eRegulons:
+#     1. Generate and export eRegulon metadata
+#     2. Score eRegulon enrichment in each cell (chromatin & transcriptome layers)
+#     3. Assess TF–eRegulon relationships via pseudobulking and correlation
+#     4. Identify high-quality regulons based on cross-layer correlation and gene counts
+#
+# Inputs:
+#   - eGRN_inference/K8Pik_scplus_obj.pkl    : Pickled ScenicPlus object with eRegulons
+#
+# Outputs:
+#   - eGRN_inference/K8Pik_eRegulon_metadata.csv
+#   - Updated scplus_obj.uns entries for:
+#       * 'eRegulon_metadata'
+#       * 'eRegulon_AUC' (region and gene)
+#       * 'selected_eRegulons'
+#
+# Dependencies:
+#   dill, pandas, scanpy, scenicplus.utils.format_egrns,
+#   scenicplus.eregulon_enrichment, scenicplus.cistromes,
+#   scenicplus.utils.generate_pseudobulks, scenicplus.utils.TF_cistrome_correlation
+#
+# Notes:
+#   - Suppresses warnings for cleaner logs.
+#   - Timings printed in minutes for enrichment and pseudobulk steps.
+#####################################################################################
+
+
 # Exploring SCENIC+ results
 
 import os

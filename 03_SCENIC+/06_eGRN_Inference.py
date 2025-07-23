@@ -1,3 +1,36 @@
+#####################################################################################
+# File: 06_eGRN_Inference.py
+#
+# Description:
+#   Performs enhancer-to-gene and TF-to-gene relationship modeling and builds
+#   eRegulons using ScenicPlus:
+#     1. Load existing ScenicPlus object with defined cistromes and motifs
+#     2. Calculate regions-to-genes relationships using GBM
+#     3. Calculate TFs-to-genes relationships using GBM
+#     4. Build eRegulons via the GSEA-based GRN builder
+#     5. Save the updated ScenicPlus object with eRegulons under `eRegulons_importance`
+#
+# Inputs:
+#   - eGRN_inference/K8Pik_scplus_obj.pkl       : ScenicPlus object from previous steps
+#   - /home/ulb/iribhm/ysong/database_scenicplus/allTFs_mm.txt : TF list for TF-to-gene modeling
+#
+# Outputs:
+#   - Updated eGRN_inference/K8Pik_scplus_obj.pkl containing:
+#       * regions_to_genes relationships
+#       * TFs_to_genes relationships (key = 'TF2G_adj')
+#       * eRegulons under key 'eRegulons_importance'
+#
+# Dependencies:
+#   dill, pickle, scanpy, numpy, pandas, pyranges,
+#   scenicplus.enhancer_to_gene, scenicplus.TF_to_gene,
+#   scenicplus.grn_builder.gsea_approach.build_grn
+#
+# Notes:
+#   - Adjust `ray_n_cpu` and `_temp_dir` for your compute environment.
+#   - Requires sufficient memory and CPU; recommend running on a compute node.
+#####################################################################################
+
+
 # System setting
 
 import dill
