@@ -1,8 +1,24 @@
 #####################################################################################
-# This code is applied on Integrated data
-# All parameters for expression plotting are exactly same for K8Pik and Klf5KO data.
-# You just need to change the object for the individual data.
+# File: 05_Marker_gene_expression_plot.R
+#
+# Description:
+#   Generates UMAP plots colored by expression of selected marker genes
+#   on the integrated multiome Seurat object.
+#
+# Inputs:
+#   - Multiome_integrated_annot.rds : integrated Seurat object with UMAP reductions
+#
+# Outputs: Plots on Fig. S5a
+#   - PDF files named "<gene>_GeneExp_rescale-Integrated.pdf" for each gene in `gene_list`
+#
+# Dependencies:
+#   Seurat, Signac, RColorBrewer, dplyr, plotly, grid, data.table, tidyverse, viridis
+#
+# Notes:
+#   - Expects the “RNA” assay to contain normalized expression data.
+#   - UMAP coordinates are taken from `seuset@reductions$umap@cell.embeddings`.
 #####################################################################################
+
 
 # Library
 library(Seurat)
@@ -17,11 +33,11 @@ library(viridis)
 
 # Data
 
-seuset <- readRDS("Annot_multiome_integrated.rds")
+seuset <- readRDS("Multiome_integrated_annot.rds")
 
 umap_coord <- as.data.frame(seuset@reductions$umap@cell.embeddings)
 
-seuset_gene <- merge.data.frame(umap_coord,t(as.data.frame(seuset@assays$RNA@data)),by=0)
+seuset_gene <- merge.data.frame(umap_coord,t(as.data.frame(seuset[[RNA]]$data)),by=0) # V5 assay
 row.names(seuset_gene) <- seuset_gene$Row.names
 
 # Plotting

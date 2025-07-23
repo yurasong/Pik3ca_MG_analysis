@@ -1,3 +1,31 @@
+#####################################################################################
+# File: 04_integrate_transcriptome.R
+#
+# Description:
+#   1. Load three pre-filtered multiome Seurat objects (K8Pik, K8Pik_Klf5KO, CTL)
+#   2. Merge and integrate RNA assays across samples using Seurat integration workflow
+#   3. Perform PCA, UMAP, neighbor graph, and clustering at resolution 0.5
+#   4. Export cluster UMAPs, per-sample UMAPs, metadata, and top marker genes
+#   5. Score cell cycle phases and plot Phase UMAP
+#   6. Plot canonical marker gene expression (violin plots)
+#   7. Sub-cluster specified populations and recluster at resolution 0.3
+#   8. Merge subcluster metadata back into main object, update cluster labels
+#   9. Rename idents to cell-type labels, generate final UMAPs (with and without legend, split by sample)
+#  10. Save final annotated Seurat object and metadata CSV
+#
+# Inputs: Individual files which are proceeded
+#   - K8pik_multiome.rds
+#   - K8pik_klf5ko_multiome.rds
+#   - ctl_multiome.rds
+#
+# Dependencies:
+#   Signac, Seurat, tidyverse, dplyr, ggplot2,
+#   EnsDb.Mmusculus.v79, BSgenome.Mmusculus.UCSC.mm10,
+#   biovizBase, Matrix, DoubletFinder, forcats
+#
+#####################################################################################
+
+
 # Library
 library(Signac)
 library(Seurat)
