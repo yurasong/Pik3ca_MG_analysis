@@ -25,7 +25,7 @@ All analyses were performed on **Ubuntu 18.04** using:
 
 - **R** ≥ 4.4.2  
 - **Conda** with dedicated environments for  
-  - [pySCENIC](https://github.com/aertslab/pySCENIC)  
+  - [pySCENIC](https://github.com/yurasong/Pik3ca_MG_analysis/blob/main/01_scRNA-seq/03_pySCENIC/conda_env.txt)  
   - [SCENIC+](https://github.com/yurasong/Pik3ca_MG_analysis/blob/main/03_SCENIC%2B/conda_environment_dependencies.txt)  
 
 Package versions are listed in the **Methods** section of the manuscript and captured in the environment files.
