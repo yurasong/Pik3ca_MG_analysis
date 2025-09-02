@@ -55,7 +55,7 @@ For requests of processed Seurat objects, related data files and protocols, plea
 
 | Name                | Role                                   | Email |
 |---------------------|----------------------------------------|-------|
-| Cédric Blanpain     | **Corresponding author**               | [Cedric.Blanpain@ulb.be](mailto:Cedric.Blanpain@ulb.be) |
+| Cédric Blanpain     | **Corresponding author** (Study supervision) | [Cedric.Blanpain@ulb.be](mailto:Cedric.Blanpain@ulb.be) |
 | Alexandra van Keymeulen | **Corresponding author** (Experimental) | [alexandra.van.keymeulen@ulb.be](mailto:alexandra.van.keymeulen@ulb.be) |
 | Alejandro Sifrim    | **Corresponding author** (Bioinformatics) | [alejandro.sifrim@kuleuven.be](mailto:alejandro.sifrim@kuleuven.be) |
 | Marco Fioramonti    | **First author** (Experimental)        | [ma.fioramonti@gmail.com](mailto:ma.fioramonti@gmail.com) |
