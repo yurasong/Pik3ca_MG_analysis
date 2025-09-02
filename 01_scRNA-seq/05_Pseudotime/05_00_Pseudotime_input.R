@@ -1,3 +1,8 @@
+#####################################################################################
+# 05_00_Pseudotime_input.R
+# This code is used for generating data object for pseudotime analysis.
+#####################################################################################
+
 # library
 library(Seurat)
 library(tidyverse)
