@@ -23,7 +23,7 @@ For our human-relevance analyses (Wu et al., Nat Genet 2021), we downloaded the 
 
 ## Environment
 
-All analyses were performed on **Ubuntu 18.04** using:
+All analyses were performed on **Ubuntu 20.04** and **MacOS 15.6 (24G84)** using:
 
 - **R** ≥ 4.4.2  
 - **Conda** with dedicated environments for  
@@ -46,3 +46,18 @@ Each code file contains its own instructions for running the specific analyses.
 ## License
 
 All rights are reserved by the authors.
+
+---
+
+## Contact
+
+For requests of processed Seurat objects, related data files and protocols, please contact:
+
+| Name                | Role                                   | Email |
+|---------------------|----------------------------------------|-------|
+| Cédric Blanpain     | **Corresponding author**               | [Cedric.Blanpain@ulb.be](mailto:Cedric.Blanpain@ulb.be) |
+| Alexandra van Keymeulen | **Corresponding author** (Experimental) | [alexandra.van.keymeulen@ulb.be](mailto:alexandra.van.keymeulen@ulb.be) |
+| Alejandro Sifrim    | **Corresponding author** (Bioinformatics) | [alejandro.sifrim@kuleuven.be](mailto:alejandro.sifrim@kuleuven.be) |
+| Marco Fioramonti    | **First author** (Experimental)        | [ma.fioramonti@gmail.com](mailto:ma.fioramonti@gmail.com) |
+| Yura Song           | **First author** (Bioinformatics)      | [yura.song@ulb.be](mailto:yura.song@ulb.be) |
+| Brigida Novello     | **First author** (Experimental)        | [brigida.novello@ulb.be](mailto:brigida.novello@ulb.be) |
