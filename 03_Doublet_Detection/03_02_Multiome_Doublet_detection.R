@@ -93,12 +93,6 @@ seuset <- doubletFinder_v3(seuset, PCs = 1:10, pN = 0.25, pK = 0.09, nExp = nExp
 
 head(seuset@meta.data) # to validate
 
-VlnPlot(seuset, features="pANN_0.25_0.09_664", pt.size=0) + 
-  ggtitle("doubletFinder on CTL") + 
-  NoLegend() +
-  ylim(0, 0.7) +
-  geom_hline(yintercept=0.4, linetype="dashed", color = "black") # score starts with pANN_, but name could be different per run.
-
 # Filter out the scores
 seuset_filt <- seuset[, seuset$pANN_0.25_0.09_664 < 0.5 & seuset$hybrid_score < 0.75]
 
