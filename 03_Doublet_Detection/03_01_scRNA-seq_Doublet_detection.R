@@ -8,7 +8,7 @@
 #   Retains cells classified as singlets by both tools, then re-clusters and projects UMAP.
 #
 # Inputs:
-#   - Annot_multiome_noFibro.rds       : Seurat object after fibroblast filtering
+#   - seurat_object.rds       : Seurat object after fibroblast filtering on scRNA-seq, individual data
 #
 # Outputs:
 #   - Violin plots of doublet scores (hybrid_score and pANN)
@@ -37,7 +37,7 @@ library(ggplot2)
 library(DoubletFinder)
 
 # Data
-seuset <- readRDS("Annot_multiome_noFibro.rds")
+seuset <- readRDS("seurat_object.rds")
 seuset@active.ident =factor(as.character(seuset@meta.data$seurat_clusters))
 names(seuset@active.ident) = rownames(seuset@meta.data)
 
@@ -113,58 +113,12 @@ subc <- ScaleData(subc, features = all.genes)
 
 subc <- RunPCA(subc, features = VariableFeatures(object = subc))
 subc <- FindNeighbors(subc, dims = 1:40, k.param = 5)
-
-### DNA accessibility data processing
-
-DefaultAssay(subc) <- "peaks"
-subc <- FindTopFeatures(subc, min.cutoff = 5)
-subc <- RunTFIDF(subc)
-subc <- RunSVD(subc) 
-
-### Joint UMAP visualization
-subc <- FindMultiModalNeighbors(
-  object = subc,
-  reduction.list = list("pca", "lsi"), 
-  dims.list = list(1:40, 2:40), 
-  modality.weight.name = "RNA.weight",
-  verbose = TRUE
-)
-
-DefaultAssay(subc) <- "RNA"
 subc <- FindClusters(subc, resolution = 0.4)
 
-subc <- RunUMAP(
-  object = subc,
-  nn.name = "weighted.nn",
-  assay = "RNA",
-  verbose = TRUE
-)
+pbmc <- RunUMAP(pbmc, dims = 1:40)
 
 DimPlot(subc, label = TRUE, repel = TRUE, reduction = "umap") + NoLegend() 
 
-# Annotation
-
-subc <- RenameIdents(subc, 
-                       `0` = "LC_ER-", 
-                       `1` = "LC_ER+", 
-                       `2` = "LC_ER+",
-                       `3` = "LC_ER-", 
-                       `4` = "LC_ER-", 
-                       `5` = "BCs")
-
-subc$cell_type <- fct_infreq(subc@active.ident)
-
-subc@active.ident =factor(as.character(subc@meta.data$cell_type))
-names(subc@active.ident) = rownames(subc@meta.data)
-
-DimPlot(subc, reduction = "umap", label = TRUE, label.size = 4, repel = T,
-        cols=c("LC_ER-" = "#00BFC4", "BCs" = "#C77CFF", "LC_ER+" = "#00A9FF", "Prolif" = "#FF61CC")) + 
-  NoLegend() 
-
-saveRDS(subc, "Annot_multiome_noFibro_nodoublet.rds")
-
-
-
-
+saveRDS(subc, "scRNAseq_data_object_noFibro_nodoublet.rds")
 
 
