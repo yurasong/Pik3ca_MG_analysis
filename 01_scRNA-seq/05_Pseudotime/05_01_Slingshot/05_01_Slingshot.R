@@ -1,6 +1,6 @@
 ##########################################################################################################
 # 05_01_Slinghost.R
-# This code is used for inferring pseudotime trajectory on scRNA-seq data with slingshot R package.
+# Infers pseudotime trajectories on scRNA-seq data with the slingshot R package and saves results.
 ##########################################################################################################
 
 # Preparation
