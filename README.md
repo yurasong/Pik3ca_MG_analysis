@@ -27,8 +27,8 @@ All analyses were performed on **Ubuntu 20.04** and **MacOS 15.6 (24G84)** using
 
 - **R** ≥ 4.4.2  
 - **Conda** with dedicated environments for  
-  - [pySCENIC](https://github.com/yurasong/Pik3ca_MG_analysis/blob/main/01_scRNA-seq/03_pySCENIC/conda_env.txt)  
-  - [SCENIC+](https://github.com/yurasong/Pik3ca_MG_analysis/blob/main/03_SCENIC%2B/conda_environment_dependencies.txt)  
+  - [pySCENIC](https://github.com/yurasong/Pik3ca_MG_analysis/blob/main/01_scRNA-seq/04_pySCENIC/conda_env.txt)  
+  - [SCENIC+](https://github.com/yurasong/Pik3ca_MG_analysis/blob/main/05_SCENIC%2B/conda_environment_dependencies.txt)  
 
 Package versions are listed in the **Methods** section of the manuscript and captured in the environment files.
 
