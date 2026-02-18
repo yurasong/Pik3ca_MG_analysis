@@ -1,7 +1,46 @@
 #####################################################################################
-# 03_Integration.R
-# This code is used for integration of 10X scRNA-seq datasets.
+# SCTransform-based integration of scRNA-seq datasets (CTL, ER_Pik, Kit_Pik)
+#
+# Description:
+#   Integrates three scRNA-seq Seurat objects (CTL, ER_Pik, and Kit_Pik) using
+#   SCTransform normalization with regression of mitochondrial content and
+#   cell-cycle scores. The pipeline performs cell-cycle scoring per dataset,
+#   applies SCT with covariate regression, identifies integration features,
+#   computes anchors using RPCA, integrates the datasets, and generates PCA/UMAP
+#   embeddings with graph-based clustering. Finally, the RNA layer is re-joined
+#   to enable downstream visualization and marker analysis in the RNA assay.
+#
+# Workflow overview:
+#     1. Load individual annotated/filtered Seurat objects (CTL, ER_Pik, Kit_Pik)
+#     2. Add sample labels
+#     3. Compute S and G2M scores (CellCycleScoring) per dataset
+#     4. SCTransform with regression (percent.mt, S.Score, G2M.Score)
+#     5. Select integration features and prepare SCT integration
+#     6. Find integration anchors (RPCA) and integrate datasets (SCT)
+#     7. Run PCA/UMAP, construct neighbors, and perform clustering
+#     8. Switch back to RNA assay and JoinLayers for downstream RNA-based plots
+#     9. Export integrated object
+#
+# Inputs:
+#   - Control_annotated.rds         : Control (CTL) Seurat object
+#   - ERPik_annotated.rds           : ER_Pik Seurat object
+#   - Kit-Pik_scRNA_filtered.rds    : Kit_Pik Seurat object (filtered)
+#
+# Outputs:
+#   - Seurat_integrated_res0p5.rds
+#       Integrated Seurat object (SCT integration) with PCA/UMAP and clusters
+#
+#
+# Dependencies:
+#   Seurat, ggplot2, patchwork, tidyverse, data.table, magrittr
+#
+# Notes:
+#   - SCT integration is used to mitigate batch effects while controlling
+#     for cell-cycle-driven variance.
+#   - JoinLayers is run after integration to ensure RNA-layer availability
+#     for downstream differential expression and FeaturePlot/DotPlot.
 #####################################################################################
+
 
 # Library
 library(Seurat)
@@ -12,9 +51,9 @@ library(data.table)
 library(magrittr)
 
 # Individual data
-ctl <- readRDS("../rds/Control_annotated.rds")
-er <- readRDS("../rds/ERPik_annotated.rds")
-kit <- readRDS("../rds/Kit-Pik_scRNA_filtered.rds")
+ctl <- readRDS("Control_annotated.rds")
+er <- readRDS("ERPik_annotated.rds")
+kit <- readRDS("Kit-Pik_scRNA_filtered.rds")
 
 ctl$sample <- 'CTL'
 er$sample  <- 'ER_Pik'
