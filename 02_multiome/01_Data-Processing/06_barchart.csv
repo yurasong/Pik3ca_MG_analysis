@@ -1,0 +1,25 @@
+CellType,Sample,count
+HY ER+/ER-,CTL,1.2
+Myo,CTL,3.8
+HY BC/ER-,CTL,0.8
+Early HY,CTL,1.4
+ER+ LCs,CTL,45.3
+ER- LCs,CTL,45.3
+Late HY,CTL,1.9
+Prol,CTL,0.4
+HY ER+/ER-,K8Pik,6.6
+Myo,K8Pik,3.8
+HY BC/ER-,K8Pik,4.4
+Early HY,K8Pik,5.8
+ER+ LCs,K8Pik,24.1
+ER- LCs,K8Pik,16.8
+Late HY,K8Pik,33.1
+Prol,K8Pik,5.4
+HY ER+/ER-,K8Pik_Klf5KO,5.8
+Myo,K8Pik_Klf5KO,0.1
+HY BC/ER-,K8Pik_Klf5KO,0.6
+Early HY,K8Pik_Klf5KO,3.8
+ER+ LCs,K8Pik_Klf5KO,40.4
+ER- LCs,K8Pik_Klf5KO,36.9
+Late HY,K8Pik_Klf5KO,11.6
+Prol,K8Pik_Klf5KO,0.7
