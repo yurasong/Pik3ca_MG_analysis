@@ -1,46 +1,47 @@
 #####################################################################################
-# SCTransform-based integration of scRNA-seq datasets (CTL, ER_Pik, Kit_Pik)
+# SCTransform-based integration and epithelial state annotation (CTL, ER_Pik, Kit_Pik)
 #
 # Description:
-#   Integrates three scRNA-seq Seurat objects (CTL, ER_Pik, and Kit_Pik) using
-#   SCTransform normalization with regression of mitochondrial content and
-#   cell-cycle scores. The pipeline performs cell-cycle scoring per dataset,
-#   applies SCT with covariate regression, identifies integration features,
-#   computes anchors using RPCA, integrates the datasets, and generates PCA/UMAP
-#   embeddings with graph-based clustering. Finally, the RNA layer is re-joined
-#   to enable downstream visualization and marker analysis in the RNA assay.
+#   Integrates three epithelial scRNA-seq datasets (CTL, ER_Pik, Kit_Pik) using
+#   Seurat SCTransform-based integration while regressing out mitochondrial
+#   content and cell-cycle effects. After integration, the pipeline performs
+#   dimensional reduction (PCA/UMAP), graph-based clustering, and manual
+#   annotation of epithelial states (ER+ LC subsets, ER- LC subsets, HY states,
+#   Myo, Prol). UMAPs are generated for the integrated dataset (Fig. 2a) and
+#   split by sample/condition (Fig. 2b).
 #
 # Workflow overview:
 #     1. Load individual annotated/filtered Seurat objects (CTL, ER_Pik, Kit_Pik)
 #     2. Add sample labels
-#     3. Compute S and G2M scores (CellCycleScoring) per dataset
-#     4. SCTransform with regression (percent.mt, S.Score, G2M.Score)
-#     5. Select integration features and prepare SCT integration
-#     6. Find integration anchors (RPCA) and integrate datasets (SCT)
-#     7. Run PCA/UMAP, construct neighbors, and perform clustering
-#     8. Switch back to RNA assay and JoinLayers for downstream RNA-based plots
-#     9. Export integrated object
+#     3. Compute cell-cycle scores (S and G2M) per dataset
+#     4. SCTransform per dataset with regression (percent.mt, S.Score, G2M.Score)
+#     5. Select integration features, prep SCT integration, and find anchors (RPCA)
+#     6. Integrate datasets (SCT), run PCA/UMAP, build neighbors, and cluster
+#     7. Join RNA layers for downstream RNA-based visualization/DE
+#     8. Manually annotate clusters into epithelial states
+#     9. Generate UMAPs for figure panels (integrated + split-by-sample)
 #
 # Inputs:
-#   - Control_annotated.rds         : Control (CTL) Seurat object
-#   - ERPik_annotated.rds           : ER_Pik Seurat object
-#   - Kit-Pik_scRNA_filtered.rds    : Kit_Pik Seurat object (filtered)
+#   - Control_annotated.rds             : Control (CTL) epithelial Seurat object
+#   - ERPik_annotated.rds               : ER_Pik epithelial Seurat object
+#   - Kit-Pik_scRNA_filtered.rds        : Kit_Pik epithelial Seurat object (filtered)
 #
 # Outputs:
-#   - Seurat_integrated_res0p5.rds
-#       Integrated Seurat object (SCT integration) with PCA/UMAP and clusters
+#   - UMAP of integrated data (Fig. 2a)
+#   - UMAP of integrated data split by sample (Fig. 2b)
+#   - Integrated annotated object: Epithelial_Integrated_Annot.rds
 #
 #
 # Dependencies:
 #   Seurat, ggplot2, patchwork, tidyverse, data.table, magrittr
 #
 # Notes:
-#   - SCT integration is used to mitigate batch effects while controlling
-#     for cell-cycle-driven variance.
-#   - JoinLayers is run after integration to ensure RNA-layer availability
-#     for downstream differential expression and FeaturePlot/DotPlot.
+#   - SCT integration is used to reduce batch effects while controlling for
+#     cell-cycle-driven variance.
+#   - JoinLayers is run after clustering to ensure RNA-layer availability for
+#     downstream DE and FeaturePlot/DotPlot.
+#   - Your plotting code suppresses legends/axes for easy multi-panel assembly.
 #####################################################################################
-
 
 # Library
 library(Seurat)
@@ -107,5 +108,62 @@ mar.combined_res0p5 <- FindClusters(mar.combined, resolution = 0.5)
 DefaultAssay(mar.combined_res0p5) <- "RNA"
 mar.combined_res0p5 <- JoinLayers(mar.combined_res0p5)
 
-# Export result
-saveRDS(mar.combined_res0p5, "Seurat_integrated_res0p5.rds")
+# Annotation
+
+seuset <- RenameIdents(mar.combined_res0p5, 
+                       `0` = "Late HY", 
+                       `1` = "ER+ LCs Sca1", 
+                       `2` = "ER- LCs Itgb3low",
+                       `3` = "ER- LCs Itgb3highP", 
+                       `4` = "ER+ LCs Foxa1", 
+                       `5` = "ER- LCs Itgb3low", 
+                       `6` = "Early HY",
+                       `7` = "ER- LCs Itgb3highP",
+                       `8` = "ER- LCs Itgb3low",
+                       `9` = "Early HY",
+                       `10` = "Myo", 
+                       `11` = "Prol")
+
+seuset$cell_type <- fct_infreq(seuset@active.ident)
+
+seuset@active.ident =factor(as.character(seuset@meta.data$cell_type))
+names(seuset@active.ident) = rownames(seuset@meta.data)
+
+# UMAP plot
+## UMAP of integrated data: Fig. 2a
+
+DimPlot(seuset, reduction = "umap", label = F,
+        cols = c("Late HY" = "#32CD32", "ER+ LCs Sca1" = "#800000", "ER+ LCs Foxa1" = "#F08080",
+                 "ER- LCs Itgb3low" = "#FFA500", "ER- LCs Itgb3highP" = "#2F4F4F", 
+                 "Early HY" = "#BDB76B", "Myo" = "#1E90FF", "Prol" = "#9932CC")) +
+  NoLegend() +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"),
+        legend.position = "none",
+        axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+## UMAP of integrated data, split.by="sample": Fig. 2b
+
+DimPlot(seuset, reduction = "umap", label = F, split.by="sample",
+        cols = c("Late HY" = "#32CD32", "ER+ LCs Sca1" = "#800000", "ER+ LCs Foxa1" = "#F08080",
+                 "ER- LCs Itgb3low" = "#FFA500", "ER- LCs Itgb3highP" = "#2F4F4F", 
+                 "Early HY" = "#BDB76B", "Myo" = "#1E90FF", "Prol" = "#9932CC")) +
+  NoLegend() +
+  theme(panel.border = element_blank(), panel.grid.major = element_blank(), 
+        panel.grid.minor = element_blank(), axis.line = element_line(colour = "black"),
+        legend.position = "none",
+        axis.title.x=element_blank(),
+        axis.text.x=element_blank(),
+        axis.ticks.x=element_blank(),
+        axis.title.y=element_blank(),
+        axis.text.y=element_blank(),
+        axis.ticks.y=element_blank())
+
+# Export
+
+saveRDS(seuset, "Epithelial_Integrated_Annot.rds")
