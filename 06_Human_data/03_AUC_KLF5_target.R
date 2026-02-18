@@ -1,5 +1,5 @@
 #####################################################################################
-# File: 04_AUC_KLF5_target.R
+# This code is used to generate Fig. 7b
 #
 # Description:
 #   1. Load processed Seurat object from Wu et al. (Nat Genet, 2021)

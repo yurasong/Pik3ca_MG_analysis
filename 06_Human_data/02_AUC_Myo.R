@@ -1,5 +1,5 @@
 #####################################################################################
-# File: 03_AUC_Myo.R
+# This code is used to generate Fig. 7a
 #
 # Description:
 #   1. Load processed Seurat object from Wu et al. (Nat Genet, 2021)
