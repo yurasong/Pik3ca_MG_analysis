@@ -1,4 +1,4 @@
-# Pik3ca Single-Cell & Multi-Omics Analysis
+# Single-Cell and Multi-Omics Analysis of Pik3ca-Driven Mammary Epithelial Plasticity
 
 This repository contains all the code and documentation used to analyze and visualize single-cell transcriptomics and 10X multi-omics datasets for our publication.
 
