@@ -114,7 +114,7 @@ seuset <- RenameIdents(mar.combined_res0p5,
                        `0` = "Late HY", 
                        `1` = "ER+ LCs Sca1", 
                        `2` = "ER- LCs Itgb3low",
-                       `3` = "ER- LCs Itgb3highP", 
+                       `3` = "ER- LCs Itgb3high", 
                        `4` = "ER+ LCs Foxa1", 
                        `5` = "ER- LCs Itgb3low", 
                        `6` = "Early HY",
@@ -134,7 +134,7 @@ names(seuset@active.ident) = rownames(seuset@meta.data)
 
 DimPlot(seuset, reduction = "umap", label = F,
         cols = c("Late HY" = "#32CD32", "ER+ LCs Sca1" = "#800000", "ER+ LCs Foxa1" = "#F08080",
-                 "ER- LCs Itgb3low" = "#FFA500", "ER- LCs Itgb3highP" = "#2F4F4F", 
+                 "ER- LCs Itgb3low" = "#FFA500", "ER- LCs Itgb3high" = "#2F4F4F", 
                  "Early HY" = "#BDB76B", "Myo" = "#1E90FF", "Prol" = "#9932CC")) +
   NoLegend() +
   theme(panel.border = element_blank(), panel.grid.major = element_blank(), 
@@ -151,7 +151,7 @@ DimPlot(seuset, reduction = "umap", label = F,
 
 DimPlot(seuset, reduction = "umap", label = F, split.by="sample",
         cols = c("Late HY" = "#32CD32", "ER+ LCs Sca1" = "#800000", "ER+ LCs Foxa1" = "#F08080",
-                 "ER- LCs Itgb3low" = "#FFA500", "ER- LCs Itgb3highP" = "#2F4F4F", 
+                 "ER- LCs Itgb3low" = "#FFA500", "ER- LCs Itgb3high" = "#2F4F4F", 
                  "Early HY" = "#BDB76B", "Myo" = "#1E90FF", "Prol" = "#9932CC")) +
   NoLegend() +
   theme(panel.border = element_blank(), panel.grid.major = element_blank(), 
