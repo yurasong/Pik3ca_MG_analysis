@@ -19,8 +19,6 @@ All raw sequencing datasets that support the findings of this study have been de
 - **10X scRNA-seq (ER Yfp-ER Pik Yfp, ER Pik Yfp - ER Pik Klf5)** (GEO accession: [GSE316159](https://www.ncbi.nlm.nih.gov/geo/query/acc.cgi?acc=GSE316159))
 - **Human-relevance analyses**: Publicly available data from [Wu_et_al., *Nat Genet*, 2021](https://www.nature.com/articles/s41588-021-00911-1))
 
-> **Note:** Processed Seurat objects and related data files are available via [here](https://www.dropbox.com/scl/fo/2376enag74fwaewsz0uq5/AIHOMZih7uUJ1UGmmqeD2GM?rlkey=7oa4bxm2i4236iniko6ccstk9&st=ut0j445l&dl=0).
-
 ## Environment
 
 All analyses were performed on **Ubuntu 20.04** and **MacOS 15.6 (24G84)** using:
