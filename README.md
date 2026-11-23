@@ -43,7 +43,7 @@ Each code file contains its own instructions for running the specific analyses.
 
 ## License
 
-All rights are reserved by the authors.
+The analysis code in this repository is available under the [MIT License](LICENSE).
 
 ---
 
