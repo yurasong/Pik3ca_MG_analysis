@@ -21,23 +21,40 @@ All raw sequencing datasets that support the findings of this study have been de
 
 ## Environment
 
-All analyses were performed on **Ubuntu 20.04** and **MacOS 15.6 (24G84)** using:
+We performed the analyses on Ubuntu 20.04 and macOS 15.6 (24G84), using R ≥ 4.4.2 for the R analyses. We used separate Conda environments for [pySCENIC](./01_scRNA-seq/01-01_CTL-ERPik-KitPik/06_pySCENIC/environment_SCENIC.yml) and [SCENIC+](./02_multiome/03_SCENIC+/environment_SCENICplus.yml). Both YAML files specify package builds for 64-bit Linux (x86_64).
 
-- **R** ≥ 4.4.2  
-- **Conda** with dedicated environments for  
-  - [pySCENIC](https://github.com/yurasong/Pik3ca_MG_analysis/blob/main/01_scRNA-seq/04_pySCENIC/conda_env.txt)  
-  - [SCENIC+](https://github.com/yurasong/Pik3ca_MG_analysis/blob/main/05_SCENIC%2B/conda_environment_dependencies.txt)  
-
-Package versions are listed in the **Methods** section of the manuscript and captured in the environment files.
+Additional software versions are listed in the Methods section of the manuscript.
 
 ## Installation
 
-1. **Clone the repo**  
-   ```bash
-   git clone https://github.com/yourusername/Pik3ca_MG_analysis.git
-   cd Pik3ca_MG_analysis
+Clone the repository and enter its root directory:
 
-Each code file contains its own instructions for running the specific analyses.
+```bash
+git clone https://github.com/yurasong/Pik3ca_MG_analysis.git
+cd Pik3ca_MG_analysis
+```
+
+On 64-bit Linux with Conda installed, follow the setup for the analysis you want to run.
+
+### pySCENIC
+
+```bash
+conda env create -f 01_scRNA-seq/01-01_CTL-ERPik-KitPik/06_pySCENIC/environment_SCENIC.yml
+conda activate pyscenic
+pyscenic --help
+```
+
+### SCENIC+
+
+The installation uses the dependency versions and build tools specified in the YAML file. The two `PIP_` settings apply only to the environment creation command.
+
+```bash
+PIP_NO_DEPS=1 PIP_NO_BUILD_ISOLATION=0 conda env create -f 02_multiome/03_SCENIC+/environment_SCENICplus.yml
+conda activate scenicplus
+python -c "from scenicplus.scenicplus_class import SCENICPLUS; print('SCENIC+ import successful')"
+```
+
+Each analysis script contains instructions for running the corresponding analysis.
 
 ---
 
