@@ -117,7 +117,7 @@ CombinePlots(list(p1, p2, p3, p4), ncol = 2)
 sling_free <- slingshot(sce, clusterLabels = "cell_type", reducedDim = "PCA")
 SlingshotDataSet(sling_free)
 
-## Apply Slingshot with Fixed topology
+## Apply Slingshot with predefined start and end states to characterise gene-expression changes along the trajectory supported by lineage-tracing experiments (Fig. 1)
 sling_fixed <- slingshot(sce, clusterLabels = "cell_type", reducedDim = "PCA", 
                          start.clus = c("ER+ LCs Foxa1", "ER+ LCs Sca1"), end.clus = "Myo")
 SlingshotDataSet(sling_fixed)
